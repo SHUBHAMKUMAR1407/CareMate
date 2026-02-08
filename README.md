@@ -1,24 +1,52 @@
-# CareMate - Doctor Appointment Booking System
+# 🏥 CareMate - Doctor Appointment Booking System
 
-CareMate is a comprehensive full-stack web application designed to streamline the process of booking doctor appointments. It features a robust architecture with three distinct user roles: **Admin**, **Doctor**, and **Patient**, ensuring a seamless experience for all stakeholders.
+A comprehensive full-stack MERN application for booking doctor appointments online. Features separate panels for Patients, Doctors, and Admins.
+
+---
+
+## 🌐 Live Demo
+
+| Platform | Link |
+|----------|------|
+| 🌍 **Main Website** | [care-mate-yt9d.vercel.app](https://care-mate-yt9d.vercel.app/) |
+| 🔐 **Admin Panel** | [care-mate-rust.vercel.app](https://care-mate-rust.vercel.app/) |
+
+---
 
 ## 🚀 Tech Stack
 
-- **Frontend:** React.js, Vite, Tailwind CSS
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB (Mongoose)
-- **Image Storage:** Cloudinary
-- **Authentication:** JWT (JSON Web Tokens)
+| Frontend | Backend | Database | Cloud |
+|----------|---------|----------|-------|
+| React.js | Node.js | MongoDB | Cloudinary |
+| Vite | Express.js | Mongoose | Vercel |
+| Tailwind CSS | JWT Auth | | |
+
+---
 
 ## ✨ Key Features
 
-- **Three-Tier Architecture:** Separate interfaces for Admins, Doctors, and Patients.
-- **Dynamic Appointment Scheduling:** Real-time slot visibility and booking management.
-- **Doctor Management:** Admins can add/edit doctor profiles, specialities, and availability.
-- **User Dashboard:** Patients can view booking history, status, and manage profile settings.
-- **Secure Authentication:** Robust login/signup system using JWT and Bcrypt.
-- **Image Handling:** Optimized image uploads and retrieval using Cloudinary.
-- **Responsive Design:** Fully responsive UI built with Tailwind CSS for mobile and desktop.
+### 👤 Patient Portal
+- User registration & authentication
+- Browse doctors by speciality
+- Book appointments with preferred time slots
+- View & manage appointments
+- Profile management
+
+### 👨‍⚕️ Doctor Panel
+- Secure doctor login
+- Dashboard with earnings & appointment stats
+- View & manage appointments
+- Mark appointments as completed
+- Update profile, fees & availability
+
+### 🔐 Admin Panel
+- Admin authentication
+- Add new doctors with credentials
+- View all appointments
+- Manage doctor listings
+- Dashboard with system overview
+
+---
 
 ## 🛠️ Installation & Setup
 
@@ -34,13 +62,12 @@ cd CareMate
 ```
 
 ### 2. Backend Setup
-Navigate to the backend directory and install dependencies:
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend` directory with the following variables:
+Create `.env` file in `backend/`:
 ```env
 PORT=4000
 MONGODB_URI=your_mongodb_connection_string
@@ -48,43 +75,87 @@ JWT_SECRET=your_jwt_secret
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=your_admin_password
 ```
 
-Start the backend server:
+Start server:
 ```bash
 npm start
 ```
 
 ### 3. Frontend Setup
-Navigate to the frontend directory:
 ```bash
 cd ../frontend
 npm install
 ```
 
-Start the frontend development server:
+Create `.env` file in `frontend/`:
+```env
+VITE_BACKEND_URL=http://localhost:4000
+```
+
+Start development server:
 ```bash
 npm run dev
 ```
 
 ### 4. Admin Panel Setup
-Navigate to the admin directory:
 ```bash
 cd ../admin
 npm install
-```
-
-Start the admin development server:
-```bash
 npm run dev
 ```
 
+---
+
 ## 📂 Project Structure
 
-- **admin/**: React-based dashboard for administrators.
-- **backend/**: Node.js/Express API with models, controllers, and routes.
-- **frontend/**: Main React application for patients to book appointments.
+```
+CareMate/
+├── frontend/          # Patient-facing website
+├── admin/             # Admin & Doctor panel
+└── backend/           # REST API server
+    ├── controllers/   # Request handlers
+    ├── models/        # MongoDB schemas
+    ├── routes/        # API routes
+    └── middlewares/   # Auth middlewares
+```
+
+---
+
+## � API Endpoints
+
+### User Routes
+- `POST /api/user/register` - Register new user
+- `POST /api/user/login` - User login
+- `GET /api/user/appointments` - Get user appointments
+- `POST /api/user/book-appointment` - Book appointment
+
+### Doctor Routes
+- `POST /api/doctor/login` - Doctor login
+- `GET /api/doctor/dashboard` - Dashboard stats
+- `GET /api/doctor/appointments` - Doctor appointments
+- `POST /api/doctor/complete-appointment` - Mark complete
+
+### Admin Routes
+- `POST /api/admin/login` - Admin login
+- `POST /api/admin/add-doctor` - Add new doctor
+- `GET /api/admin/appointments` - All appointments
+- `GET /api/admin/dashboard` - Dashboard data
+
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request for any enhancements.
+Contributions are welcome! Please fork the repository and submit a pull request.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+⭐ **Star this repo if you find it helpful!**
