@@ -82,7 +82,7 @@ const AddDoctor = () => {
           <p>Upload doctor <br /> picture</p>
         </div>
 
-        {/* Left Side */}
+        {}
         <div className='flex flex-col lg:flex-row items-start gap-10 text-gray-600'>
           <div className='w-full lg:flex-1 flex flex-col gap-4'>
             <div className='flex-1 flex flex-col gap-1'>
@@ -122,7 +122,7 @@ const AddDoctor = () => {
             </div>
           </div>
 
-          {/* Right Side */}
+          {}
           <div className='w-full lg:flex-1 flex flex-col gap-4'>
             <div className='flex-1 flex flex-col gap-1'>
               <p>Speciality</p>
@@ -150,7 +150,7 @@ const AddDoctor = () => {
           </div>
         </div>
 
-        {/* Bottom Side */}
+        {}
         <div>
           <p className='mt-4 mb-2'>About Doctor</p>
           <textarea onChange={(e) => setAbout(e.target.value)} value={about} className='w-full px-4 pt-2 border rounded' placeholder='Write about doctor' rows={5} required></textarea>
@@ -158,7 +158,7 @@ const AddDoctor = () => {
 
       </div>
 
-      <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full'>Add Doctor</button>
+      <button type='submit' className='bg-[#5974b6] px-10 py-3 mt-4 text-white rounded-full hover:bg-[#4c7abb] transition-all'>Add Doctor</button>
 
     </form>
   )

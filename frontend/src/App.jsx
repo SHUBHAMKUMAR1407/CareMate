@@ -16,7 +16,7 @@ import Footer from './components/Footer'
 const App = () => {
   return (
     <div className='mx-4 sm:mx-[10%]'>
-      <ToastContainer />
+      {/* ToastContainer moved to bottom */}
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -30,6 +30,7 @@ const App = () => {
         <Route path='/appointment/:docId' element={<Appointment />} />
       </Routes>
       <Footer />
+      <ToastContainer />
     </div>
   )
 }

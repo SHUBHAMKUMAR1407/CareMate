@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import appointmentModel from "../models/appointmentModel.js"
 import userModel from "../models/userModel.js"
 
-// API for adding doctor
+
 const addDoctor = async (req, res) => {
 
   try {
@@ -14,26 +14,26 @@ const addDoctor = async (req, res) => {
     const { name, email, password, speciality, degree, experience, about, fees, address } = req.body
     const imageFile = req.file
 
-    // checking for all data to add doctor
+    
     if (!name || !email || !password || !speciality || !degree || !experience || !about || !fees || !address) {
       return res.json({ success: false, message: 'Missing Details' })
     }
 
-    // validating email format
+    
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: 'Please enter a valid email' })
     }
 
-    // validating strong password
+    
     if (password.length < 8) {
       return res.json({ success: false, message: 'Please enter a strong password' })
     }
 
-    // hashing doctor password
+    
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    // upload image to cloudinary
+    
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' })
     const imageUrl = imageUpload.secure_url
 
@@ -54,7 +54,7 @@ const addDoctor = async (req, res) => {
 
 }
 
-// API for admin Login
+
 const loginAdmin = async (req, res) => {
   try {
 
@@ -73,7 +73,7 @@ const loginAdmin = async (req, res) => {
   }
 }
 
-// API to get all doctors list for admin panel
+
 const allDoctors = async (req, res) => {
 
   try {
@@ -88,7 +88,7 @@ const allDoctors = async (req, res) => {
 
 }
 
-// API to get all appointments list
+
 const appointmentsAdmin = async (req, res) => {
 
   try {
@@ -103,7 +103,7 @@ const appointmentsAdmin = async (req, res) => {
 
 }
 
-// API for appointment cancellation
+
 const appointmentCancel = async (req, res) => {
 
   try {
@@ -113,7 +113,7 @@ const appointmentCancel = async (req, res) => {
 
     await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
-    // releasing doctor slot
+    
     const { docId, slotDate, slotTime } = appointmentData
     const doctorData = await doctorModel.findById(docId)
     let slots_booked = doctorData.slots_booked
@@ -131,7 +131,7 @@ const appointmentCancel = async (req, res) => {
 
 }
 
-// API to get dashboard data for admin panel
+
 const adminDashboard = async (req, res) => {
 
   try {
@@ -151,9 +151,9 @@ const adminDashboard = async (req, res) => {
 
   } catch (error) {
     console.log(error)
-    res.json({ success: false, message: error.message})
+    res.json({ success: false, message: error.message })
   }
 
 }
-      
+
 export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard }

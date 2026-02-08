@@ -42,9 +42,9 @@ const Navbar = () => {
       <div className='flex items-center gap-4'>
         {
           token && userData
-            ? <div className='flex items-center gap-2 cursor-pointer group relative'>
-              <img className='w-8 rounded-full' src={userData.image} alt="" />
-              <img className='w-2.5' src={assets.dropdown_icon} alt="" />
+            ? <div className='flex items-center gap-2 cursor-pointer group relative bg-blue-50 px-3 py-2 rounded-full border border-blue-100 hover:shadow-md transition-all'>
+              <img className='w-8 h-8 rounded-full object-cover border border-blue-500' src={userData.image} alt="" />
+              <img className='w-2.5 text-blue-900' src={assets.dropdown_icon} alt="" />
               <div className='absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block'>
                 <div className='min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4'>
                   <p onClick={() => navigate('/my-profile')} className='hover:text-black cursor-pointer'>My Profile</p>
@@ -53,12 +53,12 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            : <button onClick={() => navigate('/login')} className='bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block'>Create Account</button>
+            : <button onClick={() => navigate('/login')} className='bg-secondary text-white px-8 py-3 rounded-full font-bold tracking-wide hover:scale-105 transition-all duration-300 shadow-md hidden md:block'>Create Account</button>
         }
 
         <img onClick={() => setShowMenu(true)} className='w-6 md:hidden' src={assets.menu_icon} alt="" />
 
-        {/* ---------- Mobile Menu ---------- */}
+        {}
         <div className={` ${showMenu ? 'fixed w-full' : 'h-0 w-0'} md:hidden right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
           <div className='flex items-center justify-between px-5 py-6'>
             <img className='w-20' src={assets.logo} alt="" />

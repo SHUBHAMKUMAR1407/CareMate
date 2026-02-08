@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-// user authentication middleware
+
 const authUser = async (req, res, next) => {
 
   try {
@@ -9,6 +9,9 @@ const authUser = async (req, res, next) => {
     if (!token) {
       return res.json({ success: false, message: 'Not Authorized Login Again' })
     }
+
+    console.log("Auth Verifying Token:", token.substring(0, 20) + "...");
+    
 
     const token_decode = jwt.verify(token, process.env.JWT_SECRET)
     req.body.userId = token_decode.id

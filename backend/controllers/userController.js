@@ -6,33 +6,44 @@ import userModel from '../models/userModel.js'
 import doctorModel from '../models/doctorModel.js'
 import appointmentModel from '../models/appointmentModel.js'
 
-// API to register user
+
+
+
 const registerUser = async (req, res) => {
 
   try {
-
-    const { name, email, password } = req.body
+    console.log("Register Request Received:", req.body);
+    const { name, email, password, phone, dob, address, gender } = req.body
+    const imageFile = req.file
 
     if (!name || !password || !email) {
       return res.json({ success: false, message: 'Missing Details' })
     }
 
-    // validating email format
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: 'Enter a valid email' })
     }
 
-    // validating strong password
     if (password.length < 8) {
       return res.json({ success: false, message: 'enter a strong password' })
     }
 
-    // hashing user password
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
+    let imageURL = "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" // Default
+
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' })
+      imageURL = imageUpload.secure_url
+    }
+
     const userData = {
-      name, email, password: hashedPassword
+      name, email, password: hashedPassword,
+      phone, dob,
+      address: JSON.parse(address), // Expecting JSON string for address if sent as FormData
+      gender,
+      image: imageURL
     }
 
     const newUser = new userModel(userData)
@@ -43,12 +54,15 @@ const registerUser = async (req, res) => {
 
   } catch (error) {
     console.log(error)
+    if (error.code === 11000) {
+      return res.json({ success: false, message: "Email already registered" })
+    }
     res.json({ success: false, message: error.message })
   }
 
 }
 
-// API for user login
+
 const loginUser = async (req, res) => {
 
   try {
@@ -76,7 +90,7 @@ const loginUser = async (req, res) => {
 
 }
 
-// API to get user profile data
+
 const getProfile = async (req, res) => {
 
   try {
@@ -93,7 +107,7 @@ const getProfile = async (req, res) => {
 
 }
 
-// API to update user profile
+
 const updateProfile = async (req, res) => {
 
   try {
@@ -109,7 +123,7 @@ const updateProfile = async (req, res) => {
 
     if (imageFile) {
 
-      // upload image to cloudinary
+
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' })
       const imageURL = imageUpload.secure_url
 
@@ -125,7 +139,7 @@ const updateProfile = async (req, res) => {
 
 }
 
-// API to book appointment
+
 const bookAppointment = async (req, res) => {
 
   try {
@@ -140,7 +154,7 @@ const bookAppointment = async (req, res) => {
 
     let slots_booked = docData.slots_booked
 
-    // checking for slot availablity
+
     if (slots_booked[slotDate]) {
       if (slots_booked[slotDate].includes(slotTime)) {
         return res.json({ success: false, message: 'Slot not available' })
@@ -167,7 +181,7 @@ const bookAppointment = async (req, res) => {
     const newAppointment = new appointmentModel(appointmentData)
     await newAppointment.save()
 
-    // save new slots data in docData
+
     await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
     res.json({ success: true, message: 'Appointment Booked' })
@@ -179,7 +193,7 @@ const bookAppointment = async (req, res) => {
 
 }
 
-// API to get user appointments for frontend my-appointments page
+
 const listAppointment = async (req, res) => {
 
   try {
@@ -196,7 +210,7 @@ const listAppointment = async (req, res) => {
 
 }
 
-// API to cancel appointment
+
 const cancelAppointment = async (req, res) => {
 
   try {
@@ -204,14 +218,14 @@ const cancelAppointment = async (req, res) => {
     const { userId, appointmentId } = req.body
     const appointmentData = await appointmentModel.findById(appointmentId)
 
-    // verify appointment user
+
     if (appointmentData.userId !== userId) {
       return res.json({ success: false, message: 'Unauthorized action' })
     }
 
     await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
-    // releasing doctor slot
+
     const { docId, slotDate, slotTime } = appointmentData
     const doctorData = await doctorModel.findById(docId)
     let slots_booked = doctorData.slots_booked
@@ -229,4 +243,82 @@ const cancelAppointment = async (req, res) => {
 
 }
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment }
+
+const sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.json({ success: false, message: 'Email is required' });
+    }
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({ success: false, message: 'User not found' });
+    }
+
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+
+    user.otp = otp;
+    user.otpExpire = Date.now() + 15 * 60 * 1000;
+    await user.save();
+
+
+    console.log(`PASSWORD RESET OTP for ${email}: ${otp}`);
+
+
+
+
+
+    res.json({ success: true, message: 'OTP Sent to Email' });
+
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+
+const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res.json({ success: false, message: 'Email and New Password are required' });
+    }
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.json({ success: false, message: 'User not found' });
+    }
+
+    if (newPassword.length < 8) {
+      return res.json({ success: false, message: 'Enter a strong password (8+ chars)' });
+    }
+
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+
+    user.password = hashedPassword;
+
+
+    await user.save();
+
+    res.json({ success: true, message: 'Password Reset Successfully' });
+
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+}
+
+
+
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment, sendOtp, resetPassword }

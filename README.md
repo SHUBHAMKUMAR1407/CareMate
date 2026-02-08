@@ -1,87 +1,90 @@
-# Doctor Appointment Website 🥼
-A doctor appointment website build with mongodb, express, reactjs and nodejs.
+# CareMate - Doctor Appointment Booking System
 
-# 💡About this project 
-Doctor Appointment website quite useful website. In this project it consists of 3 parts. First one is backend, second one is frontend and last one is admin. You can easly sign up and sign in that page. And then you can see home, all doctors , about and contact page. If you go to the all doctor page you can choose specialization of doctor. If you choose one doctor after doing that immediately will going to the doctor personel page, and then you will choose easely appontment date. If maybe you change you desicion, you should profile page and cancel you appointment. I gave some rights the admin panel. A few of them, add a doctor personel information, graduation, specialization and picture and so on. This website I made three weeks it took quite such a long time but it's very developing myself and learn lots of new things.
+CareMate is a comprehensive full-stack web application designed to streamline the process of booking doctor appointments. It features a robust architecture with three distinct user roles: **Admin**, **Doctor**, and **Patient**, ensuring a seamless experience for all stakeholders.
 
-## ⚡Technologies
-* `MONGODB`
-* `EXPRESS`
-* `REACT JS`
-* `NODE JS`
-* `TAILWINDCSS`
+## 🚀 Tech Stack
 
-## 🛠 Dependecies
-* `AXIOS`
-* `REACT ROUTER`
-* `REACT TOASTIFY`
+- **Frontend:** React.js, Vite, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB (Mongoose)
+- **Image Storage:** Cloudinary
+- **Authentication:** JWT (JSON Web Tokens)
 
-## 🚦 Running the Project
+## ✨ Key Features
 
-To run the project in your local environment, follow these steps: ⬇️
+- **Three-Tier Architecture:** Separate interfaces for Admins, Doctors, and Patients.
+- **Dynamic Appointment Scheduling:** Real-time slot visibility and booking management.
+- **Doctor Management:** Admins can add/edit doctor profiles, specialities, and availability.
+- **User Dashboard:** Patients can view booking history, status, and manage profile settings.
+- **Secure Authentication:** Robust login/signup system using JWT and Bcrypt.
+- **Image Handling:** Optimized image uploads and retrieval using Cloudinary.
+- **Responsive Design:** Fully responsive UI built with Tailwind CSS for mobile and desktop.
 
-## 1️⃣ You need: 
+## 🛠️ Installation & Setup
 
-- Vite Tool
-- NodeJs.
-- Database (`MongoDB`) Free Cluster.
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (Local or Atlas)
+- Cloudinary Account
 
-## 2️⃣ Create .env file:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/CareMate.git
+cd CareMate
+```
 
-Create a .env file to store your credentials:
+### 2. Backend Setup
+Navigate to the backend directory and install dependencies:
+```bash
+cd backend
+npm install
+```
 
-- `MONGODB_URI=mongodb+srv://<username>:<password>@clusterName.xxxxxxx.mongodb.net/doctor-appointment`
+Create a `.env` file in the `backend` directory with the following variables:
+```env
+PORT=4000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
 
-## 3️⃣ Download npm packages and Vite tool:
+Start the backend server:
+```bash
+npm start
+```
 
-- For the backend side follow these steps: ⬇️
+### 3. Frontend Setup
+Navigate to the frontend directory:
+```bash
+cd ../frontend
+npm install
+```
 
-1. Run `npm install` in the project directory to install the required dependencies.
-2. Run `npm run server` to get the project started.
-3. Open [http://localhost:4000](http://localhost:4000) (or the address shown in your console) in your web browser to view the app.
+Start the frontend development server:
+```bash
+npm run dev
+```
 
-- For the frontend side follow these steps: ⬇️
+### 4. Admin Panel Setup
+Navigate to the admin directory:
+```bash
+cd ../admin
+npm install
+```
 
-1. Run `cd doctor-appointment-website/frontend/` should go folder field.
-2. Run `npm install` in the project directory to install the required dependencies.
-3. Run `npm run dev` to get the project started.
-4. Open [http://localhost:5173](http://localhost:5173) (or the address shown in your console) in your web browser to view the app.
+Start the admin development server:
+```bash
+npm run dev
+```
 
-- For the admin side follow these steps: ⬇️
+## 📂 Project Structure
 
-1. Run `cd doctor-appointment-website/admin/` should go folder field.
-2. Run `npm install` in the project directory to install the required dependencies.
-3. Run `npm run dev` to get the project started.
-4. Open [http://localhost:5174](http://localhost:5174) (or the address shown in your console) in your web browser to view the app.
+- **admin/**: React-based dashboard for administrators.
+- **backend/**: Node.js/Express API with models, controllers, and routes.
+- **frontend/**: Main React application for patients to book appointments.
 
-## 🌍 How it looks
+## 🤝 Contributing
 
-<details>
-<summary><h3> 📸 - Demo Images </h3></summary>
-
-
-<img src='https://github.com/user-attachments/assets/768d1f94-29e3-4466-90c5-418278abb2ce' width="100%"/>
-
-#
-
-<img src='https://github.com/user-attachments/assets/c66e8a38-6c8f-4b07-ab43-4ede3c087a09' width="100%"/>
-
-#
-
-<img src='https://github.com/user-attachments/assets/6bc93c7b-2e47-414a-ac9c-f7abbe8871b4' width="100%"/>
-
-#
-
-<img src='https://github.com/user-attachments/assets/ba5625b0-2a40-4429-b3c8-e6a5f4e23676' width="100%"/>
-
-#
-
-<img src='https://github.com/user-attachments/assets/7d6f1afb-f767-4464-8189-33df6a1cc2b8' width="100%"/>
-
-#
-
-<img src='https://github.com/user-attachments/assets/c7d8da6e-6bc4-485a-a6ce-8ed52ceff819' width="100%"/>
-
-
-</details>
-
+Contributions are welcome! Please fork the repository and submit a pull request for any enhancements.

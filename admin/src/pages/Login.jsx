@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { assets } from '../assets/assets_admin/assets'
 import { AdminContext } from '../context/AdminContext'
+import { DoctorContext } from '../context/DoctorContext'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 
 const Login = () => {
 
   const [state, setState] = useState('Admin')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('admin123@gmail.com')
+  const [password, setPassword] = useState('admin123')
   const { setAToken, backendUrl } = useContext(AdminContext)
+  const { setDToken } = useContext(DoctorContext)
 
   const onSubmitHandler = async (event) => {
     event.preventDefault()
@@ -25,11 +27,18 @@ const Login = () => {
           toast.error(data.message)
         }
       } else {
-
+        const { data } = await axios.post(backendUrl + '/api/doctor/login', { email, password })
+        if (data.success) {
+          localStorage.setItem('dToken', data.token)
+          setDToken(data.token)
+        } else {
+          toast.error(data.message)
+        }
       }
 
     } catch (error) {
-
+      console.log(error)
+      toast.error(error.message)
     }
   }
 
@@ -48,12 +57,12 @@ const Login = () => {
           <input onChange={(e) => setPassword(e.target.value)} value={password} className='border border-[#dadada] rounded w-full p-2 mt-1' type="password" required />
         </div>
 
-        <button className='bg-primary text-white w-full py-2 rounded-md text-base'>Login</button>
+        <button className='bg-secondary text-white w-full py-2 rounded-md text-base font-bold shadow-md hover:scale-[1.02] transition-transform'>Login</button>
 
         {
           state === 'Admin'
-            ? <p>Doctor Login? <span className='text-primary underline cursor-pointer text-xs' onClick={() => setState('Doctor')}>Click Here</span></p>
-            : <p>Admin Login? <span className='text-primary underline cursor-pointer text-xs' onClick={() => setState('Admin')}>Click Here</span></p>
+            ? <p>Doctor Login? <span className='text-primary underline cursor-pointer text-xs' onClick={() => { setState('Doctor'); setEmail(''); setPassword('') }}>Click Here</span></p>
+            : <p>Admin Login? <span className='text-primary underline cursor-pointer text-xs' onClick={() => { setState('Admin'); setEmail('admin123@gmail.com'); setPassword('admin123') }}>Click Here</span></p>
         }
 
       </div>
