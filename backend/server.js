@@ -18,10 +18,12 @@ connectCloudinary()
 
 app.use(express.json())
 app.use(cors({
-  origin: "*"
+  origin: "*",
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'token', 'aToken', 'dToken']
 }));
 
-
+app.options('*', cors());
 
 app.use('/api/admin', adminRouter)
 app.use('/api/doctor', doctorRouter)
