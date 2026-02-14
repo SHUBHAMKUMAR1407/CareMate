@@ -9,7 +9,11 @@ const Login = () => {
   const { backendUrl, token, setToken } = useContext(AppContext)
   const navigate = useNavigate()
 
-  const [state, setState] = useState('Sign Up')
+  const [state, setState] = useState(() => sessionStorage.getItem('auth_state') || 'Login')
+
+  useEffect(() => {
+    sessionStorage.setItem('auth_state', state)
+  }, [state])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
