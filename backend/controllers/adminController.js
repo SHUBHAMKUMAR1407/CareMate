@@ -14,26 +14,26 @@ const addDoctor = async (req, res) => {
     const { name, email, password, speciality, degree, experience, about, fees, address } = req.body
     const imageFile = req.file
 
-    
+
     if (!name || !email || !password || !speciality || !degree || !experience || !about || !fees || !address) {
       return res.json({ success: false, message: 'Missing Details' })
     }
 
-    
+
     if (!validator.isEmail(email)) {
       return res.json({ success: false, message: 'Please enter a valid email' })
     }
 
-    
+
     if (password.length < 8) {
       return res.json({ success: false, message: 'Please enter a strong password' })
     }
 
-    
+
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
 
-    
+
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' })
     const imageUrl = imageUpload.secure_url
 
@@ -113,7 +113,7 @@ const appointmentCancel = async (req, res) => {
 
     await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
-    
+
     const { docId, slotDate, slotTime } = appointmentData
     const doctorData = await doctorModel.findById(docId)
     let slots_booked = doctorData.slots_booked
@@ -156,4 +156,21 @@ const adminDashboard = async (req, res) => {
 
 }
 
-export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard }
+const deleteDoctor = async (req, res) => {
+  try {
+    const { docId } = req.body
+    const doctor = await doctorModel.findById(docId)
+    if (!doctor) {
+      return res.json({ success: false, message: 'Doctor not found' })
+    }
+
+    await doctorModel.findByIdAndDelete(docId)
+    res.json({ success: true, message: 'Doctor Deleted' })
+
+  } catch (error) {
+    console.log(error)
+    res.json({ success: false, message: error.message })
+  }
+}
+
+export { addDoctor, loginAdmin, allDoctors, appointmentsAdmin, appointmentCancel, adminDashboard, deleteDoctor }
