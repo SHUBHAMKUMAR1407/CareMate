@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const MyAppointments = () => {
 
   const { backendUrl, token, getDoctorsData } = useContext(AppContext)
   const [appointments, setAppointments] = useState([])
   const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const navigate = useNavigate()
 
   const slotDateFormat = (slotDate) => {
     const dateArray = slotDate.split('_')
@@ -58,6 +60,9 @@ const MyAppointments = () => {
   useEffect(() => {
     if (token) {
       getUserAppointments()
+    } else {
+      setAppointments([])
+      navigate('/')
     }
   }, [token])
 

@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
 import { assets } from '../assets/assets_frontend/assets'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const MyProfile = () => {
 
@@ -10,6 +11,13 @@ const MyProfile = () => {
 
   const [isEdit, setIsEdit] = useState(false)
   const [image, setImage] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/')
+    }
+  }, [token])
 
   const updateUserProfileData = async () => {
 
